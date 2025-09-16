@@ -9,6 +9,7 @@ public class ControladorLogin : MonoBehaviour
     [SerializeField] private CloudServices cloudServices;
     [SerializeField] private TMP_Text userNameText;
     [SerializeField] private TMP_InputField userNameInputField;
+    [SerializeField] private TMP_Text recordeText;
 
 
     private async void Awake()
@@ -19,6 +20,7 @@ public class ControladorLogin : MonoBehaviour
             await cloudServices.SignUpAnonymouslyAsync();
 
             AtualizarUserNameUI();
+            AtualizarRecordUI();
         }
         catch (Exception e)
         {
@@ -37,5 +39,12 @@ public class ControladorLogin : MonoBehaviour
     {
         await cloudServices.AtualizarUserName(userNameInputField.text);
         AtualizarUserNameUI();
+    }
+
+    public async void AtualizarRecordUI()
+    {
+        int recorde = await cloudServices.GetPontuacaoJogador();
+        recordeText.text = "MEU RECORDE: " + recorde;
+
     }
 }

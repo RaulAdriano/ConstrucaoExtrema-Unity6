@@ -4,6 +4,11 @@ using Unity.Services.Authentication;
 using Unity.Services.Core;
 using UnityEditor.PackageManager;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using Unity.Services.Leaderboards;
+using Unity.Services.Leaderboards.Models;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class CloudServices : MonoBehaviour
 {
@@ -49,8 +54,45 @@ public class CloudServices : MonoBehaviour
         await AuthenticationService.Instance.UpdatePlayerNameAsync(userName);
     }
 
-    public String GetUserName()
+    public string GetUserName()
     {
         return AuthenticationService.Instance.PlayerName;
+    }
+
+    public async Task SalvarPontuacao(int pontuacao)
+    {
+        await LeaderboardsService.Instance.AddPlayerScoreAsync("Pontuacoes", pontuacao);
+    }
+
+    public async Task<List<JogadorRanking>> GetPontuacoes()
+    {
+        var scoresResponse = await LeaderboardsService.Instance.GetScoresAsync("Pontuacoes");
+        
+        List<JogadorRanking> jogadoresRanking = new List<JogadorRanking>();
+        
+        foreach (LeaderboardEntry entry in scoresResponse.Results)
+        {
+            JogadorRanking jogador = new JogadorRanking();
+            jogador.posicao = entry.Rank;
+            jogador.userName = entry.PlayerName;
+            jogador.pontuacao = (int) entry.Score;
+
+            jogadoresRanking.Add(jogador);
+        }
+
+        return jogadoresRanking;
+    }
+
+    public async Task<int> GetPontuacaoJogador()
+    {
+        try
+        {
+            var result = await LeaderboardsService.Instance.GetPlayerScoreAsync("Pontuacoes");
+            return (int)result.Score;
+        }
+        catch
+        {
+            return 0;
+        }
     }
 }

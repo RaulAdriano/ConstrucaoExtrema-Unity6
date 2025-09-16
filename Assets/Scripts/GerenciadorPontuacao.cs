@@ -5,6 +5,7 @@ public class GerenciadorPontuacao : MonoBehaviour
 {
     [SerializeField] private TMP_Text pontuacaoText;
     [SerializeField] private TMP_Text pontuacaoGameOverText;
+    [SerializeField] private CloudServices cloudServices;
     private int pontuacao;
 
     public void AdicionarPontuacao()
@@ -13,5 +14,10 @@ public class GerenciadorPontuacao : MonoBehaviour
         pontuacaoText.text = pontuacao.ToString();
 
         pontuacaoGameOverText.text = "SCORE: " + pontuacao.ToString();
+    }
+
+    public async void RegistrarPontuacao()
+    {
+       await cloudServices.SalvarPontuacao(pontuacao);
     }
 }
