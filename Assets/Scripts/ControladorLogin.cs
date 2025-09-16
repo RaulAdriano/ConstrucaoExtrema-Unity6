@@ -10,6 +10,7 @@ public class ControladorLogin : MonoBehaviour
     [SerializeField] private TMP_Text userNameText;
     [SerializeField] private TMP_InputField userNameInputField;
     [SerializeField] private TMP_Text recordeText;
+    [SerializeField] private RemovedorAnuncios removedorAnuncios;
 
 
     private async void Awake()
@@ -18,6 +19,7 @@ public class ControladorLogin : MonoBehaviour
         {
             await UnityServices.InitializeAsync();
             await cloudServices.SignUpAnonymouslyAsync();
+            removedorAnuncios.LoadCloudData();
 
             AtualizarUserNameUI();
             AtualizarRecordUI();
