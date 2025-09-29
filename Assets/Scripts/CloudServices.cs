@@ -1,13 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Unity.Services.Authentication;
-using Unity.Services.Core;
-using UnityEditor.PackageManager;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using Unity.Services.Leaderboards;
 using Unity.Services.Leaderboards.Models;
-using NUnit.Framework;
 using System.Collections.Generic;
 
 public class CloudServices : MonoBehaviour
